@@ -5,7 +5,6 @@
 export async function seed(knex) {
   await knex("ingredients").del();
   await knex("ingredients").insert([
-    // ✅ Beneficial Ingredients
     { name: "Hyaluronic Acid", category: "Beneficial", description: "Hydrates and plumps the skin.", suitable_for: "dry, normal, combination, sensitive" },
     { name: "Niacinamide", category: "Beneficial", description: "Reduces inflammation and improves skin texture.", suitable_for: "all" },
     { name: "Retinol", category: "Beneficial", description: "Anti-aging and boosts collagen production.", suitable_for: "oily, combination, normal" },
@@ -32,7 +31,6 @@ export async function seed(knex) {
     { name: "Allantoin", category: "Beneficial", description: "Soothing, helps skin repair.", suitable_for: "sensitive, dry" },
     { name: "Mandelic Acid", category: "Beneficial", description: "Gentle exfoliator, good for acne-prone skin.", suitable_for: "oily, combination, normal" },
 
-    // ❌ Harmful Ingredients
     { name: "Parabens", category: "Harmful", description: "Linked to hormone disruption.", suitable_for: "none" },
     { name: "Sodium Lauryl Sulfate (SLS)", category: "Harmful", description: "Strips natural oils and causes irritation.", suitable_for: "none" },
     { name: "Formaldehyde", category: "Harmful", description: "Linked to cancer and skin irritation.", suitable_for: "none" },
@@ -43,7 +41,6 @@ export async function seed(knex) {
     { name: "Petroleum Jelly", category: "Harmful", description: "Can clog pores and contain harmful contaminants.", suitable_for: "none" },
     { name: "Toluene", category: "Harmful", description: "A neurotoxin that can cause respiratory issues.", suitable_for: "none" },
 
-    // ⚠️ Potential Irritants
     { name: "Phenoxyethanol", category: "Potential Irritant", description: "Preservative that may cause irritation in sensitive skin.", suitable_for: "sensitive" },
     { name: "Disodium EDTA", category: "Potential Irritant", description: "May cause mild irritation for some skin types.", suitable_for: "sensitive" },
     { name: "Xanthan Gum", category: "Potential Irritant", description: "May cause mild irritation in sensitive individuals.", suitable_for: "sensitive" },

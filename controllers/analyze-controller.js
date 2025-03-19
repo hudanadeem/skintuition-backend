@@ -5,7 +5,7 @@ import fs from "fs/promises";
 import { correctOcrErrors } from "../utils/correctOcrText.js";
 
 export const analyzeImage = async (req, res) => {
-  const { skinType } = req.body; // 👈 Get skin type from request
+  const { skinType } = req.body; 
 
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -26,7 +26,7 @@ export const analyzeImage = async (req, res) => {
       .toFormat("png")
       .toFile(processedImagePath);
 
-    console.log("✅ Image preprocessing complete, running Tesseract OCR...");
+    console.log("Image preprocessing complete, running Tesseract OCR...");
 
     const {
       data: { text: detectedText },
@@ -46,7 +46,6 @@ export const analyzeImage = async (req, res) => {
 
     const correctedText = await correctOcrErrors(cleanedText);
 
-    // ✅ Fetch all ingredients and their categories from the database
     const dbIngredients = await db
       .select("name", "category", "suitable_for", "description")
       .from("ingredients");
@@ -56,7 +55,6 @@ export const analyzeImage = async (req, res) => {
       return acc;
     }, {});
 
-    // ✅ Extract & clean ingredients from OCR text
     const ingredients = correctedText
       .split(/\s*,\s*/)
       .map((ingredient) => ingredient.replace(/[^\w\s/-]/g, "").trim())
@@ -66,9 +64,8 @@ export const analyzeImage = async (req, res) => {
       ingredient.charAt(0).toUpperCase() + ingredient.slice(1).toLowerCase()
     );
 
-    console.log("🔍 Matched Ingredients:", formattedIngredients);
+    console.log("Matched Ingredients:", formattedIngredients);
 
-    // ✅ Categorize ingredients based on suitability for the user's skin type
     const beneficial = [];
     const potentialIrritants = [];
     const harmful = [];
@@ -76,7 +73,6 @@ export const analyzeImage = async (req, res) => {
     formattedIngredients.forEach((ingredient) => {
       const match = ingredientDictionary[ingredient.toLowerCase()];
       if (match) {
-        // ✅ Check if the ingredient is suitable for the user's skin type
         const suitableFor = match.suitable_for
           .split(",")
           .map((s) => s.trim().toLowerCase());
@@ -85,7 +81,7 @@ export const analyzeImage = async (req, res) => {
           beneficial.push({
             name: match.name,
             category: match.category,
-            description: match.description, // ✅ Added description
+            description: match.description,
           });
         } else if (match.category === "Potential Irritant") {
           potentialIrritants.push({
@@ -103,17 +99,15 @@ export const analyzeImage = async (req, res) => {
       }
     });
 
-    // ✅ Limit results to max 6 per category
     const response = {
       beneficial: beneficial.slice(0, 6),
       potentialIrritants: potentialIrritants.slice(0, 6),
-      harmful: harmful.length > 0 ? harmful.slice(0, 6) : "No harmful ingredients detected ✅",
+      harmful: harmful.length > 0 ? harmful.slice(0, 6) : "No harmful ingredients detected ",
     };
 
-    // ✅ Return the categorized results
     res.json(response);
   } catch (e) {
-    console.error("❌ Error processing image:", e);
+    console.error("Error processing image:", e);
     return res.status(500).json({ error: "Server error" });
   }
 };
