@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import analyzeRouter from "./routes/analyze-routes.js";
+import skinTypeRouter from "./routes/skin-type-routes.js";
 // import userRoutes from "./routes/users-routes.js";
 // import ingredientRoutes from "./routes/ingredients-routes.js";
 // import productRoutes from "./routes/products-routes.js";
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/analyze", analyzeRouter);
+app.use("/api/skin-type", skinTypeRouter);
 // app.use("/api/users", userRoutes);
 // app.use("/api/ingredients", ingredientRoutes);
 // app.use("/api/products", productRoutes);
