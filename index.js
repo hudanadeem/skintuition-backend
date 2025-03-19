@@ -3,10 +3,8 @@ import express from "express";
 import cors from "cors";
 import analyzeRouter from "./routes/analyze-routes.js";
 import skinTypeRouter from "./routes/skin-type-routes.js";
-// import userRoutes from "./routes/users-routes.js";
-// import ingredientRoutes from "./routes/ingredients-routes.js";
-// import productRoutes from "./routes/products-routes.js";
-
+import authRouter from "./routes/auth-routes.js"; 
+import userRoutes from "./routes/user-routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,9 +18,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/analyze", analyzeRouter);
 app.use("/api/skin-type", skinTypeRouter);
-// app.use("/api/users", userRoutes);
-// app.use("/api/ingredients", ingredientRoutes);
-// app.use("/api/products", productRoutes);
+app.use("/api/auth", authRouter); 
+app.use("/api/users", userRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
