@@ -1,26 +1,26 @@
 import fs from "fs/promises";
 import path from "path";
+import db from "../knex.js";
 
-// ✅ Fetch Questions from JSON File
 export const getSkinTypeQuestions = async (req, res) => {
     try {
         const filePath = path.resolve("data/questions.json");
         const questions = await fs.readFile(filePath, "utf-8");
         res.json(JSON.parse(questions));
     } catch (error) {
-        console.error("❌ Error reading questions:", error);
+        console.error("Error reading questions:", error);
         res.status(500).json({ error: "Failed to load questions" });
     }
 };
 
-export const determineSkinType = (req, res) => {
+export const determineSkinType = async (req, res) => {
     const { answers } = req.body;
+    const userId = req.user?.userId;
 
     if (!answers || answers.length !== 5) {
         return res.status(400).json({ error: "Invalid input, provide 5 answers." });
     }
 
-    // Initialize scores for each skin type
     let score = { dry: 0, oily: 0, sensitive: 0, combination: 0, normal: 0 };
 
     answers.forEach((answer, index) => {
@@ -68,8 +68,12 @@ export const determineSkinType = (req, res) => {
         }
     });
 
-    // Determine the dominant skin type based on the highest score
     const skinType = Object.keys(score).reduce((a, b) => (score[a] > score[b] ? a : b));
+
+    if (userId) {
+        await db("users").where({ id: userId }).update({ skin_type: skinType });
+        console.log(`🔄 Updated skin type for user ${userId} to ${skinType}`);
+    }
 
     res.json({ skinType });
 };
