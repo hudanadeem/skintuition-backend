@@ -5,16 +5,20 @@ import fs from "fs/promises";
 import { correctOcrErrors } from "../utils/correctOcrText.js";
 
 export const analyzeImage = async (req, res) => {
-  const { skinType } = req.body; 
+  const userId = req.user.userId;
 
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
-  if (!skinType) {
-    return res.status(400).json({ error: "Skin type is required" });
-  }
 
   try {
+    const user = await db("users").where({ id: userId }).first();
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const skinType = user.skinType;
+    console.log("Skin Type:", skinType);
     const processedImagePath = `uploads/processed_${req.file.filename}.png`;
 
     await sharp(req.file.path)
@@ -83,13 +87,15 @@ export const analyzeImage = async (req, res) => {
             category: match.category,
             description: match.description,
           });
-        } else if (match.category === "Potential Irritant") {
+        }
+        else if (match.category === "Potential Irritant") {
           potentialIrritants.push({
             name: match.name,
             category: match.category,
             description: match.description,
           });
-        } else {
+        }
+        else if (match.category === "Harmful") {
           harmful.push({
             name: match.name,
             category: match.category,
@@ -102,7 +108,7 @@ export const analyzeImage = async (req, res) => {
     const response = {
       beneficial: beneficial.slice(0, 6),
       potentialIrritants: potentialIrritants.slice(0, 6),
-      harmful: harmful.length > 0 ? harmful.slice(0, 6) : "No harmful ingredients detected ",
+      harmful: harmful.slice(0, 6), 
     };
 
     res.json(response);
