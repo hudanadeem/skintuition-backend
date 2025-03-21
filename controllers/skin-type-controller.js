@@ -15,7 +15,7 @@ export const getSkinTypeQuestions = async (req, res) => {
 
 export const determineSkinType = async (req, res) => {
     const { answers } = req.body;
-    const userId = req.user?.userId;
+    const userId = req.user.userId;
 
     if (!answers || answers.length !== 5) {
         return res.status(400).json({ error: "Invalid input, provide 5 answers." });
