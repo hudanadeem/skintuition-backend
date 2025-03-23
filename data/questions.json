@@ -1,0 +1,57 @@
+[
+  {
+      "question": "How does your skin feel after cleansing?",
+      "options": [
+          "Very tight, dry, and flaky",
+          "Somewhat tight, but not flaky",
+          "Feels clean, but gets oily later",
+          "Balanced, neither too dry nor too oily",
+          "Oily all over immediately after",
+          "Depends on the season/weather"
+      ]
+  },
+  {
+      "question": "How often do you experience breakouts?",
+      "options": [
+          "Almost never, maybe once a year",
+          "Rarely, once every few months",
+          "Only during hormonal changes",
+          "Occasionally, 1-2 times a month",
+          "Frequently, weekly breakouts",
+          "Constantly, I struggle with acne"
+      ]
+  },
+  {
+      "question": "How does your skin react to new skincare products?",
+      "options": [
+          "Gets very irritated, burns, or turns red",
+          "Mildly irritated but gets better",
+          "Only sensitive to specific ingredients",
+          "No reaction at all, adapts well",
+          "Feels great and looks better",
+          "I don’t experiment with new products"
+      ]
+  },
+  {
+      "question": "By mid-day, how does your skin look and feel?",
+      "options": [
+          "Very dry and flaky",
+          "Tight but not flaky",
+          "Feels normal, not oily or dry",
+          "Slightly oily in the T-zone",
+          "Very oily all over",
+          "Changes depending on the weather"
+      ]
+  },
+  {
+      "question": "How does your skin react to cold or hot weather?",
+      "options": [
+          "Always dry and irritated in any weather",
+          "Only dry in cold weather, but okay in heat",
+          "Balanced, but gets slightly dry in winter",
+          "Feels normal in all seasons",
+          "Gets oily in summer, normal in winter",
+          "Always oily, no matter the season"
+      ]
+  }
+]
