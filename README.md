@@ -80,13 +80,19 @@ Built for skincare enthusiasts, dermatology patients, and anyone looking to make
 
 ### 💻 Frontend Setup (`skintuition`)
 
-1. **Install dependencies:**
+1.**Clone the repository:**
+
+   ```bash
+   git clone https://github.com/hudanadeem/skintuition.git
+   cd skintuition
+   ```
+2. **Install dependencies:**
 
    ```bash
    npm install
    ```
 
-2. **Start the development server:**
+3. **Start the development server:**
 
    ```bash
    npm run dev
