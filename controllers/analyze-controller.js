@@ -1,8 +1,7 @@
 import db from "../knex.js";
 import Tesseract from "tesseract.js";
 import sharp from "sharp";
-import fs from "fs/promises";
-import { correctOcrErrors } from "../utils/correctOcrText.js";
+import { analyzeIngredients } from "../utils/analyzeIngredients.js";
 
 export const analyzeImage = async (req, res) => {
   const userId = req.user.userId;
@@ -17,8 +16,7 @@ export const analyzeImage = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const skinType = user.skinType;
-    console.log("Skin Type:", skinType);
+    const skinType = user.skin_type || "unknown";
     const processedImagePath = `uploads/processed_${req.file.filename}.png`;
 
     await sharp(req.file.path)
@@ -29,8 +27,6 @@ export const analyzeImage = async (req, res) => {
       .median(3)
       .toFormat("png")
       .toFile(processedImagePath);
-
-    console.log("Image preprocessing complete, running Tesseract OCR...");
 
     const {
       data: { text: detectedText },
@@ -48,70 +44,23 @@ export const analyzeImage = async (req, res) => {
       .replace(/\s+/g, " ")
       .trim();
 
-    const correctedText = await correctOcrErrors(cleanedText);
-
-    const dbIngredients = await db
-      .select("name", "category", "suitable_for", "description")
-      .from("ingredients");
-
-    const ingredientDictionary = dbIngredients.reduce((acc, item) => {
-      acc[item.name.toLowerCase()] = item;
-      return acc;
-    }, {});
-
-    const ingredients = correctedText
-      .split(/\s*,\s*/)
-      .map((ingredient) => ingredient.replace(/[^\w\s/-]/g, "").trim())
-      .filter((ingredient) => ingredient.length > 2);
-
-    const formattedIngredients = [...new Set(ingredients)].map((ingredient) =>
-      ingredient.charAt(0).toUpperCase() + ingredient.slice(1).toLowerCase()
-    );
-
-    console.log("Matched Ingredients:", formattedIngredients);
-
-    const beneficial = [];
-    const potentialIrritants = [];
-    const harmful = [];
-
-    formattedIngredients.forEach((ingredient) => {
-      const match = ingredientDictionary[ingredient.toLowerCase()];
-      if (match) {
-        const suitableFor = match.suitable_for
-          .split(",")
-          .map((s) => s.trim().toLowerCase());
-
-        if (suitableFor.includes(skinType) || suitableFor.includes("all")) {
-          beneficial.push({
-            name: match.name,
-            category: match.category,
-            description: match.description,
-          });
-        }
-        else if (match.category === "Potential Irritant") {
-          potentialIrritants.push({
-            name: match.name,
-            category: match.category,
-            description: match.description,
-          });
-        }
-        else if (match.category === "Harmful") {
-          harmful.push({
-            name: match.name,
-            category: match.category,
-            description: match.description,
-          });
-        }
-      }
-    });
+    const analysisResult = await analyzeIngredients(cleanedText, skinType);
 
     const response = {
-      beneficial: beneficial.slice(0, 6),
-      potentialIrritants: potentialIrritants.slice(0, 6),
-      harmful: harmful.slice(0, 6), 
+      skinType: analysisResult.skinType || skinType,
+      summary:
+        analysisResult.analysis?.summary ||
+        `For your ${skinType} skin: analysis completed`,
+      ingredientsList: analysisResult.ingredientsList || cleanedText,
+      analysis: {
+        beneficial: analysisResult.analysis?.beneficial?.slice(0, 6) || [],
+        potentialIrritants:
+          analysisResult.analysis?.potentialIrritants?.slice(0, 6) || [],
+        harmful: analysisResult.analysis?.harmful?.slice(0, 6) || [],
+      },
     };
 
-    res.json(response);
+    return res.json(response);
   } catch (e) {
     console.error("Error processing image:", e);
     return res.status(500).json({ error: "Server error" });
