@@ -80,7 +80,7 @@ Built for skincare enthusiasts, dermatology patients, and anyone looking to make
 
 ### 💻 Frontend Setup (`skintuition`)
 
-1.**Clone the repository:**
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/hudanadeem/skintuition.git
