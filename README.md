@@ -2,7 +2,7 @@
 
 ## 🧴 Overview
 
-**Skintuition** is an skincare ingredient analyzer that helps users quickly identify harmful and beneficial ingredients in their skincare products by uploading an image of an ingredient list.
+**Skintuition** is an AI skincare ingredient analyzer that helps users quickly identify harmful and beneficial ingredients in their skincare products by uploading an image of an ingredient list.
 
 Built for skincare enthusiasts, dermatology patients, and anyone looking to make informed, transparent skincare choices.
 
@@ -12,7 +12,7 @@ Built for skincare enthusiasts, dermatology patients, and anyone looking to make
 
 - Quiz to determine user's skin-type to get personalized analysis
 - Upload an image of ingredient list to scan. (sample image in /assets/ingredients/)
-- Categorizes ingredients as **Beneficial**, **Potential Irritants**, or **Harmful**.
+- AI Categorizes ingredients as **Beneficial**, **Potential Irritants**, or **Harmful** based on your skin type.
 - Clean, responsive, and user-friendly interface.
 
 ---
@@ -21,7 +21,7 @@ Built for skincare enthusiasts, dermatology patients, and anyone looking to make
 
 - **Frontend:** React.js, SCSS
 - **Backend:** Node.js, Express, MySQL (with Knex.js)
-- **AI:** Gemini API (OCR + NLP for text extraction and ingredient classification)
+- **AI:** Gemini API (OCR for text extraction and ingredient classification)
 
 ---
 
