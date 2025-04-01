@@ -19,9 +19,7 @@ Built for skincare enthusiasts, dermatology patients, and anyone looking to make
 
 ## 🛠 Tech Stack
 
-- **Frontend:** React.js, SCSS
-- **Backend:** Node.js, Express, MySQL (with Knex.js)
-- **AI:** Gemini API (OCR for text extraction and ingredient classification)
+<table> <tr> <td><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="30"/> React.js</td> <td><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sass/sass-original.svg" width="30"/> SCSS</td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" width="30"/> Node.js</td> <td><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg" width="30"/> Express</td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" width="30"/> MySQL</td> <td><img src="https://img.shields.io/badge/Knex.js-FF5722?logo=knex&logoColor=white" height="20"/> Knex.js</td> </tr> <tr> <td><img src="https://img.icons8.com/color/48/artificial-intelligence.png" width="30"/> Gemini AI</td> <td><img src="https://img.icons8.com/ios-filled/50/image-file.png" width="30"/> OCR for Ingredient Scanning</td> </tr> </table>
 
 ---
 
